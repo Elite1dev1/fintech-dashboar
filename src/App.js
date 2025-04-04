@@ -1,25 +1,100 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import theme from './styles/theme';
+import { AppProvider, useAppContext } from './context/AppContext';
 
-function App() {
+// Layout
+import Layout from './components/common/Layout';
+
+// Pages
+import Dashboard from './components/dashboard/Dashboard';
+import SavingsGoals from './components/dashboard/SavingsGoals';
+import Investments from './components/dashboard/Investments';
+import Transactions from './components/dashboard/Transactions';
+import Login from './components/auth/Login';
+
+// Protected route component
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAppContext();
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  
+  return children;
+};
+
+// Main App component
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppProvider>
+      <ThemeProvider theme={theme}>
+        <LocalizationProvider dateAdapter={AdapterLuxon}>
+          <CssBaseline />
+          <Router>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              
+              <Route 
+                path="/" 
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Dashboard />
+                    </Layout>
+                  </ProtectedRoute>
+                } 
+              />
+              
+              <Route 
+                path="/savings" 
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <SavingsGoals />
+                    </Layout>
+                  </ProtectedRoute>
+                } 
+              />
+              
+              <Route 
+                path="/investments" 
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Investments />
+                    </Layout>
+                  </ProtectedRoute>
+                } 
+              />
+              
+              <Route 
+                path="/transactions" 
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Transactions />
+                    </Layout>
+                  </ProtectedRoute>
+                } 
+              />
+              
+              {/* Add more routes as needed */}
+              
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </Router>
+        </LocalizationProvider>
+      </ThemeProvider>
+    </AppProvider>
   );
-}
+};
 
 export default App;
