@@ -219,7 +219,7 @@ const Transactions = () => {
           Transactions
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          View and manage your transaction history
+          View and manage your transactions history
         </Typography>
       </Box>
       
