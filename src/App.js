@@ -8,6 +8,8 @@ import { AppProvider, useAppContext } from './context/AppContext';
 
 // Layout
 import Layout from './components/common/Layout';
+// Loading Animation
+import LoadingAnimation from './components/common/LoadingAnimation';
 
 // Pages
 import Dashboard from './components/dashboard/Dashboard';
@@ -21,7 +23,7 @@ const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAppContext();
   
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingAnimation message="Loading your financial dashboard..." />;
   }
   
   if (!isAuthenticated) {
