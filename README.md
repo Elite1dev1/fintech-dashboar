@@ -68,3 +68,34 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Deployment to Render
+
+This project is configured for easy deployment to [Render](https://render.com/).
+
+### Automatic Deployment with render.yaml
+
+1. Create a new account or log in to your existing account on [Render](https://render.com/).
+2. Connect your GitHub repository to Render.
+3. Render will automatically detect the `render.yaml` file and configure your deployment.
+4. Click "Create New" and select "Blueprint" to deploy using the render.yaml configuration.
+
+### Manual Deployment
+
+Alternatively, you can manually deploy the application:
+
+1. Create a new Static Site on Render.
+2. Connect your GitHub repository.
+3. Configure the following settings:
+   - Build Command: `npm install && npm run build`
+   - Publish Directory: `build`
+4. Add the following environment variable:
+   - `NODE_VERSION`: `18.x`
+5. Under "Advanced" settings, add a redirect rule:
+   - Source: `/*`
+   - Destination: `/index.html`
+   - Status: `200`
+
+### Post-Deployment
+
+After deployment, your application will be available at the URL provided by Render. You can configure a custom domain in the Render dashboard if needed.
